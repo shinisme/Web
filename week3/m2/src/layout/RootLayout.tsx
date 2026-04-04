@@ -3,12 +3,10 @@ import Navbar from '../components/Navbar';
 
 const RootLayout = () => {
   return (
-    <>
-      {/* 모든 페이지에 공통으로 적용되는 Navbar */}
+    <div className="min-h-screen bg-neutral-900">
       <Navbar />
-      {/* 현재 라우트에 해당하는 페이지가 여기에 렌더링됨 */}
       <Outlet />
-    </>
+    </div>
   );
 };
 

@@ -32,7 +32,16 @@ const MovieListPage = ({ category }: Props) => {
           `https://api.themoviedb.org/3/movie/${category}?api_key=${API_KEY}&language=ko-KR&page=${page}`
         );
         const data = await res.json();
-        setMovies(data.results);
+        if (!res.ok) {
+          setError(
+            typeof data.status_message === 'string'
+              ? data.status_message
+              : '영화 데이터를 불러오는 데 실패했습니다.'
+          );
+          setMovies([]);
+          return;
+        }
+        setMovies(Array.isArray(data.results) ? data.results : []);
       } catch {
         // 네트워크 에러 등 예외 처리
         setError('영화 데이터를 불러오는 데 실패했습니다.');
