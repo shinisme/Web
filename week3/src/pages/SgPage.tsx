@@ -1,0 +1,1 @@
+export const MiroPage = () => <h1>승구리 페이지</h1>;

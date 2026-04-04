@@ -1,0 +1,1 @@
+export const ComputerPage = () => <h1>나의 페이지</h1>;
