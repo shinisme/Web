@@ -17,6 +17,7 @@ type Props = {
 const API_KEY = '199308621bd95ded352502e9d716d697';
 
 const MovieListPage = ({ category }: Props) => {
+  const navigate = useNavigate(); // 1. 이미 선언된 navigate 사용
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태
   const [error, setError] = useState<string | null>(null); // 에러 상태
@@ -79,8 +80,9 @@ const MovieListPage = ({ category }: Props) => {
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {movies.map((movie) => (
           // group: 부모 hover 상태를 자식에게 전달
-          <div key={movie.id} className="relative group cursor-pointer overflow-hidden rounded-lg">
+          <div key={movie.id} className="relative group cursor-pointer overflow-hidden rounded-lg" onClick={() => navigate(`/movies/${movie.id}`)}> // 2. 클릭 이벤트 추가
             {/* 호버 시 blur 처리 */}
+          
             <img
               src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
               alt={movie.title}

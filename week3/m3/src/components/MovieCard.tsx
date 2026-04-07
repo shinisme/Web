@@ -1,5 +1,6 @@
-import type { Movie } from "../types/movie";
+import type { Movie } from "../types/movie.ts";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // 1. useNavigate 임포트
 
 interface MovieCardProps {
     movie: Movie;   
@@ -7,11 +8,14 @@ interface MovieCardProps {
 
 export default function MovieCard({ movie }: MovieCardProps) {
     const [isHovered, setIsHovered] = useState(false);
+    const navigate = useNavigate(); // 2. 훅 선언
 
     return ( 
-        <div className='relative rounded-xl shadow-lg overflow-hidden cursor-pointer w-44 transition-transform transform duration-5 00 hover:scale-105'
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        <div 
+            className='relative ... cursor-pointer'
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            onClick={() => navigate(`/movies/${movie.id}`)} // 3. 클릭 시 이동 경로 설정
         >
             <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt={`${movie.title} 영화의 이미지`} 
             className=' '
