@@ -1,1 +1,1 @@
-export const ComputerPage = () => <h1>나의 페이지</h1>;
+export const ComputerPage = () => <h1>정통 페이지</h1>;

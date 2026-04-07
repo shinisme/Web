@@ -1,4 +1,4 @@
-import type { Movie } from "../types/movie";
+import type { Movie } from "../types/movie.ts";
 import { useState } from "react";
 
 interface MovieCardProps {
