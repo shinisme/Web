@@ -1,4 +1,3 @@
-// m2/src/App.tsx 수정
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import RootLayout from './layout/RootLayout'
 import HomePage from './pages/HomePage'

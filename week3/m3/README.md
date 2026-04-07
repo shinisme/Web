@@ -71,3 +71,5 @@ export default defineConfig([
   },
 ])
 ```
+
+react-router-dom설치와 useNavigate나 Link를 통해 명시적으로 경로를 연결하여 해결완료
