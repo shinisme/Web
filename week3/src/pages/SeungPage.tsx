@@ -1,0 +1,1 @@
+export const SieunPage = () => <h1>승연 페이지</h1>;

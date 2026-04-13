@@ -1,8 +1,4 @@
-import type { ComponentType } from 'react';
-
-interface RouteProps {
-  component: ComponentType;
-}
+import type { RouteProps } from './types';
 
 export const Route = ({ component: Component }: RouteProps) => {
   return <Component />;
