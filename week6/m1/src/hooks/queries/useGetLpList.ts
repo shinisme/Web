@@ -25,7 +25,7 @@ export const useGetLpList = ({ cursor, search, order, limit }: PaginationDto) =>
                 order,
                 limit,
             }),
-        staleTime: 1000 * 60 * 5,
+        staleTime: 0,
         gcTime: 1000 * 60 * 10,
         placeholderData: keepPreviousData,
         initialData: initialLpListData,

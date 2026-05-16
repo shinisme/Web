@@ -54,9 +54,31 @@ console.log("LP DATA:", data);
             />
 
             <div>
-                {data?.data.map((lp) => (
-                    <h1 key={lp.id}>{lp.title}</h1>
-                ))}
+                {data?.data?.length === 0 && (
+                    <p className="text-[#063B3D]">등록된 LP가 없습니다.</p>
+                )}
+
+                <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-7">
+                    {data?.data?.map((lp) => (
+                        <div
+                            key={lp.id}
+                            className="border border-[#B7EDEA] hover:scale-105 transition hover:shadow-lg bg-white rounded-md overflow-hidden shadow-sm"
+                        >
+                            <div className="aspect-square bg-[#F4FFFC]">
+                                <img
+                                    src={lp.thumbnail}
+                                    alt={lp.title}
+                                    className="h-full w-full object-cover hover:scale-110 transition overflow-hidden"
+                                />
+                            </div>
+
+                            <div className="p-4">
+                                <h1 className="font-bold text-[#063B3D] mb-2">{lp.title}</h1>
+                                <p className="text-sm text-gray-500 line-clamp-3">{lp.content}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );
