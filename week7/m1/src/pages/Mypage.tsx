@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getMyInfo, patchMyInfo } from "../apis/auth";
 import { useAuth } from "../context/AuthContext";
 import type { ReqUpdateMyInfoDto } from "../types/auth";
+import type { ResMyInfoDto } from "../types/auth";
 
 const fileToBase64 = (file: File): Promise<string> =>
     new Promise((resolve, reject) => {
@@ -34,16 +35,49 @@ export default function MyPage() {
 
     const user = data?.data;
 
-    const updateMutation = useMutation({
-        mutationFn: (body: ReqUpdateMyInfoDto) => patchMyInfo(body),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["myInfo"] });
-            setIsEditing(false);
-            setAvatarFile(null);
-            setAvatarPreview("");
+const updateMutation = useMutation({
+  mutationFn: (body: ReqUpdateMyInfoDto) => patchMyInfo(body),
+
+  onMutate: async (body) => {
+    await queryClient.cancelQueries({ queryKey: ["myInfo"] });
+
+    const previous = queryClient.getQueryData<ResMyInfoDto>(["myInfo"]);
+
+    queryClient.setQueryData<ResMyInfoDto>(["myInfo"], (old) => {
+      if (!old?.data) return old;
+
+      return {
+        ...old,
+        data: {
+          ...old.data,
+          ...(body.name !== undefined && { name: body.name }),
+          ...(body.bio !== undefined && { bio: body.bio }),
+          ...(body.avatar !== undefined && { avatar: body.avatar }),
         },
+      };
     });
 
+    return { previous };
+  },
+/*저장 버튼 클릭
+→ 서버 응답 기다리기 전에 myInfo 캐시의 name을 먼저 바꿈
+→ 그래서 마이페이지와 Nav-Bar 이름이 즉시 바뀜
+→ 실패하면 previous로 되돌림
+→ 끝나면 invalidateQueries로 서버 값과 다시 동기화*/
+
+  onError: (_err, _body, context) => {
+    if (context?.previous) {
+      queryClient.setQueryData(["myInfo"], context.previous);
+    }
+  },
+
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ["myInfo"] });
+    setIsEditing(false);
+    setAvatarFile(null);
+    setAvatarPreview("");
+  },
+});
     const logoutMutation = useMutation({
         mutationFn: logout,
         onSuccess: () => navigate("/"),

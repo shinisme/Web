@@ -6,13 +6,20 @@ import type { ResMyInfoDto } from "../types/auth";
 import Footer from "../components/Footer";
 import Sidebar from "../components/Sidebar";
 import { useMutation } from "@tanstack/react-query";
+import {useQuery} from "@tanstack/react-query";
 // 로그인 여부에 따라 헤더에 로그인/회원가입 버튼 또는 사용자 이름과 로그아웃 버튼을 보여주는 레이아웃
 
 export default function HomeLayout() {
   const navigate = useNavigate();
   const { accessToken, logout } = useAuth();
+  const { data } = useQuery({
+  queryKey: ["myInfo"],
+  queryFn: getMyInfo,
+  enabled: !!accessToken,
+  staleTime: 1000 * 60,
+});
 
-  const [data, setData] = useState<ResMyInfoDto>({} as ResMyInfoDto);
+  const [setData] = useState<ResMyInfoDto>({} as ResMyInfoDto);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const logoutMutation = useMutation({

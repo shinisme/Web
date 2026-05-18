@@ -53,14 +53,7 @@ export const deleteLpApi = async (lpId: number) => {
     );
 };//    LP 삭제 API 추가
 
-export const toggleLike = async (lpId: number) => {
-    const { data } = await axios.post(
-        `${import.meta.env.VITE_SERVER_API_URL}/v1/lps/${lpId}/likes`,
-        {},
-        { headers: getAuthHeader() }
-    );
-    return data;
-}; //   LP 좋아요 토글 API 추가
+
 
 export const postComment = async ({
     lpId,
@@ -124,3 +117,20 @@ export const uploadImage = async (file: File) => {
 
   return data.data.imageUrl;
 }; // 이미지 업로드 API 추가
+
+export const addLike = async (lpId: number) => {
+  const { data } = await axios.post(
+    `${import.meta.env.VITE_SERVER_API_URL}/v1/lps/${lpId}/likes`,
+    {},
+    { headers: getAuthHeader() }
+  );
+  return data;
+};
+
+export const removeLike = async (lpId: number) => {
+  const { data } = await axios.delete(
+    `${import.meta.env.VITE_SERVER_API_URL}/v1/lps/${lpId}/likes`,
+    { headers: getAuthHeader() }
+  );
+  return data;
+}; // 좋아요 추가 API와 삭제 API를 별도로 구현
